@@ -1,12 +1,14 @@
 from flask import Flask, request, jsonify
 from openai import OpenAI
-import apikeys
 import prompts as p
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
-
+load_dotenv()
 # API hívás a "Marketing Mentor" egyéni GPT modellhez
-client = OpenAI(api_key=apikeys.API_KEY)
+
+client = OpenAI(api_key=os.getenv("API_KEY"))
 
 def buyer_persona(input_data):
     response = client.chat.completions.create(
@@ -18,9 +20,9 @@ def buyer_persona(input_data):
     )
     return response.choices[0].message.content.strip()
 
-@app.route('/buyer_persona', methods=['POST'])
+@app.route('/buyer_persona', methods=['GET'])
 def create_buyer_persona():
-    input_data = request.json.get('input')
+    input_data = request.args.get('input')  # Szöveg beolvasása a GET paraméterből
     if not input_data:
         return jsonify({"error": "Input data is required"}), 400
     
