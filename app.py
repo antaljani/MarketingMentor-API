@@ -3,6 +3,7 @@ from openai import OpenAI
 import prompts as p
 from dotenv import load_dotenv
 import os
+from waitress import serve
 
 app = Flask(__name__)
 load_dotenv()
@@ -32,5 +33,6 @@ def create_buyer_persona():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
+serve(app, host='0.0.0.0', port=8080)
