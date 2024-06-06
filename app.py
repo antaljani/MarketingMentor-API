@@ -32,7 +32,8 @@ async def create_buyer_persona(input: str):
     
     try:
         result = buyer_persona(input)
-        return JSONResponse(content={"buyer_persona": result}, status_code=200)
+        # return JSONResponse(content={"buyer_persona": result}, status_code=200)
+        return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
